@@ -1,5 +1,12 @@
+@font-face {
+  font-family: 'PokemonGb'; /* let op de naam */
+  src: url('/public/fonts/Minecraftia-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: system-ui, sans-serif;
+  font-family: 'PokemonGb', sans-serif;
   font-weight: 400;
 }
 

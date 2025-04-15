@@ -1,17 +1,61 @@
 {% layout "server/layouts/base.liquid" %}
 
 {% block content %}
+<main class="guessPokemonContainer">
 
-<h1 class="h1">{{ title }}</h1>
+  <ul class="guessPokemon">
+    <h2>Wie is deze Pokémon?</h2>
+    <li class="pokemon" id="random-pokemon">
+      <img
+      id="guess-img"
+      data-id=""
+      src=""
+      alt="Raad de Pokémon"
+      style="filter: brightness(0);" />
+    </li>
+    <input type="text" id="guess-input" placeholder="Raad de naam...">
+    <button id="submit-guess">Raad</button>
+    <button id="reset-game">Reset game</button>
+    <div id="pokemon-name" class="pokemon-name"></div>
 
-<ul class="grid">
-  {% for item in items %}
-    <li>
-      <a href="/plant/{{ item.id }}">
-        {% render 'server/components/card/card.liquid', item: item %}
-      </a>
+    <div id="feedback" class="feedback-message" aria-live="polite"></div>
+  </ul>
+
+
+<ul class="pokemon-list">
+  {% for pokemon in pokemons %}
+    <li class="pokemon"
+        data-id="{{ pokemon.id }}"
+        data-name="{{ pokemon.name }}">
+      <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
     </li>
   {% endfor %}
 </ul>
+
+<section class="pokedex">
+  <div class="pokedex-preview">
+    <img id="pokedex-preview-img" src="" alt="Pokémon preview" style="display: none;" />
+  </div>
+
+<ul class="pokedex-list">
+  {% for pokemon in pokemons %}
+    <li class="pokedexPokemons" data-id="{{ pokemon.id }}">
+      <ul class="pokeball">
+        <li class="pokeball-top"></li>
+        <li class="pokeball-mid-top"></li>
+        <li class="pokeball-mid-bottom"></li>
+        <li class="pokeball-bottom"></li>
+    </ul>
+      <div class="pokedex-name">{{ pokemon.name }}</div>
+    </li>
+  {% endfor %}
+</ul>
+</section>
+
+</ul>
+</main>
+
+
+
 
 {% endblock %}

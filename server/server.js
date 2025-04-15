@@ -4,28 +4,8 @@ import { logger } from '@tinyhttp/logger';
 import { Liquid } from 'liquidjs';
 import sirv from 'sirv';
 
-const data = {
-  'beemdkroon': {
-    id: 'beemdkroon',
-    name: 'Beemdkroon',
-    image: {
-      src: 'https://i.pinimg.com/736x/09/0a/9c/090a9c238e1c290bb580a4ebe265134d.jpg',
-      alt: 'Beemdkroon',
-      width: 695,
-      height: 1080,
-    }
-  },
-  'wilde-peen': {
-    id: 'wilde-peen',
-    name: 'Wilde Peen',
-    image: {
-      src: 'https://mens-en-gezondheid.infonu.nl/artikel-fotos/tom008/4251914036.jpg',
-      alt: 'Wilde Peen',
-      width: 418,
-      height: 600,
-    }
-  }
-}
+const pokemonLimit = 151;
+const pokemonAPI = `https://pokeapi.co/api/v2/pokemon?limit=${pokemonLimit}&offset=0`;
 
 const engine = new Liquid({
   extname: '.liquid',
@@ -36,24 +16,50 @@ const app = new App();
 app
   .use(logger())
   .use('/', sirv(process.env.NODE_ENV === 'development' ? 'client' : 'dist'))
-  .listen(3000, () => console.log('Server available on http://localhost:3000'));
+  .use('/public', sirv('public'))
+  .listen(3000, () => console.log('Server draait op http://localhost:3000'));
 
+// Haal Pokémon-data op, incl. animated GIF sprite
+async function fetchAllPokemon() {
+  const response = await fetch(pokemonAPI);
+  const data = await response.json();
+
+  const detailedPokemon = await Promise.all(
+    data.results.map(async (pokemon, index) => {
+      const id = index + 1;
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      const details = await res.json();
+
+      return {
+        id,
+        name: pokemon.name,
+        sprite: details.sprites.front_default,
+        types: details.types.map(t => t.type.name),
+      };
+    })
+  );
+
+  return detailedPokemon;
+}
+
+
+// Homepagina route
 app.get('/', async (req, res) => {
-  return res.send(renderTemplate('server/views/index.liquid', { title: 'Home', items: Object.values(data) }));
-});
+  const pokemonList = await fetchAllPokemon();
 
-app.get('/plant/:id/', async (req, res) => {
-  const id = req.params.id;
-  const item = data[id];
-  if (!item) {
-    return res.status(404).send('Not found');
-  }
-  return res.send(renderTemplate('server/views/detail.liquid', {
-    title: `Detail page for ${id}`,
-    item: item
+  const randomIndex = Math.floor(Math.random() * pokemonList.length);
+  const randomPokemon = pokemonList[randomIndex];
+
+  return res.send(renderTemplate('server/views/index.liquid', {
+    title: 'Pokédex',
+    pokemons: pokemonList,
+    randomPokemon, // ✅ HIER moet hij goed meegegeven worden
   }));
 });
 
+
+
+// Render-template functie
 const renderTemplate = (template, data) => {
   const templateData = {
     NODE_ENV: process.env.NODE_ENV || 'production',
@@ -62,4 +68,35 @@ const renderTemplate = (template, data) => {
 
   return engine.renderFileSync(template, templateData);
 };
+
+app.get('/pokemon/:id', async (req, res) => {
+  const id = req.params.id;
+
+  if (isNaN(id) || id < 1 || id > 151) {
+    return res.status(404).send('Pokémon not found');
+  }
+
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const details = await response.json();
+
+    const item = {
+      id,
+      name: details.name,
+      sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`,
+      stats: details.stats.map(stat => ({
+        name: stat.stat.name,
+        value: stat.base_stat,
+      })),
+    };
+
+    return res.send(renderTemplate('server/views/detail.liquid', {
+      title: `Details van ${item.name}`,
+      item,
+    }));
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Er is iets misgegaan met het ophalen van de data.');
+  }
+});
 
