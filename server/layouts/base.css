@@ -1,7 +1,33 @@
 header {
-  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+}
+
+nav{
+  height: 4rem;
+    background: #c6b58c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img{
+      width: clamp(1rem, 100%, 13rem);
+      height: fit-content;
+    }
 }
 
 footer {
-  padding: 1rem;
+  padding: .5rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  background: #c6b58c;
+  z-index: 15;
+  display: flex;
 }
+

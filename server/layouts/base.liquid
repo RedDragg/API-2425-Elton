@@ -21,13 +21,27 @@
 
 <body>
   <header>
-    Deze header staat op elke pagina
+    <nav>
+      <img src="/public/img/pokemonlogo.png" alt="pokeguesser logo">
+      <ul class="pokeball base">
+        <li class="pokeball-top"></li>
+        <li class="pokeball-mid-top"></li>
+        <li class="pokeball-mid-bottom"></li>
+        <li class="pokeball-bottom"></li>
+    </ul>
+    </nav>
   </header>
   <main>
     {% block content %}{% endblock %}
   </main>
   <footer>
-    Deze footer staat op elke pagina
+    <div id="volume-control" style="margin: 1rem 0;">
+      <label for="volume-slider">🔊 Volume muziek:</label>
+      <input type="range" id="volume-slider" min="0" max="100" value="40" />
+    </div>
+    <button id="reset-game">Reset game</button>
+    <button id="close-pokemon-list" class="close-pokemon-list">×</button>
+
   </footer>
 </body>
 </html>

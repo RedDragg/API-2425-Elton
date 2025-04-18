@@ -12,14 +12,24 @@
 body {
   color: black;
   margin: 0 auto;
+
 }
 
-main {
-  padding: 1rem;
+main{
+  overflow-x: clip;
 }
+
 
 ul, li{
   list-style: none;
 
 }
+.pokemon-list{
+  background: url('/public/img/pokemonbox.png');
+}
 
+/* Verberg de datalist-dropdown-pijl in Chrome */
+input[list]::-webkit-calendar-picker-indicator {
+  display: none;
+  appearance: none;
+}
