@@ -5,10 +5,18 @@
   <video id="pokemon-video" width="100%" height="100%" autoplay muted></video>
 </div>
 
+<div id="username-container">
+  <label for="username-input">Voer je naam in:</label>
+  <input type="text" id="username-input" placeholder="Ash Ketchum" />
+  <button id="save-username">Opslaan</button>
+</div>
+
+
 <div class="guessPokemonContainer">
   <ul class="guessPokemon">
 
 <li class="randomPokemonContainer">
+  <p id="greeting"></p>
   <h2>Who's that pokémon?</h2>
   <div id="random-pokemon">
     <img id="guess-img" data-id="" src="" alt="Raad de Pokémon" style="filter: brightness(0);" />
