@@ -1,36 +1,72 @@
 {% layout "server/layouts/base.liquid" %}
 
+{% block scripts %}
+<script>window.pokemons = {{ pokemons | json }};</script>
+  <script src="/Components/index.js" defer></script>
+
+{% endblock %}
+
 {% block content %}
-<div class="intro-scherm" for="intro">
-  <video id="pokemon-video" width="100%" height="100%" autoplay muted></video>
-</div>
 
 <div id="username-container">
-  <label for="username-input">Voer je naam in:</label>
-  <input type="text" id="username-input" placeholder="Ash Ketchum" />
-  <button id="save-username">Opslaan</button>
+  <form id="username-form">
+    <ul>
+      <li>
+        <p>Kies je personage:</p>
+        <label class="character-option">
+          <input type="radio" name="character" value="boy" id="boy" required checked hidden/>
+          <img src="/public/img/boy.png" alt="boy">
+        </label>
+        <label class="character-option">
+          <input type="radio" name="character" value="girl" id="girl" required hidden/>
+          <img src="/public/img/girl.png" alt="girl">
+        </label>
+      </li>
+      <li> <label for="username-input">Voer je naam in:</label>
+        <input type="text" id="username-input" placeholder="Ash Ketchum" required />
+        <input type="submit" id="username-submit" value="Opslaan"></input>
+      </li>
+    </ul>
+
+
+
+  </form>
 </div>
+
+
+<div id="winner-container" style="display: none;">
+  <ul>
+    <li>
+      <h2>Gefeliciteerd, <span id="winner-name"></span>! 🎉</h2>
+    </li>
+    <img id="winner-character-img" src="" alt="Gekozen personage">
+    <li>
+      <p>Je hebt alle Pokémon geraden!</p>
+    </li>
+  </ul>
+</div>
+
 
 
 <div class="guessPokemonContainer">
   <ul class="guessPokemon">
 
-<li class="randomPokemonContainer">
-  <p id="greeting"></p>
-  <h2>Who's that pokémon?</h2>
-  <div id="random-pokemon">
-    <img id="guess-img" data-id="" src="" alt="Raad de Pokémon" style="filter: brightness(0);" />
-  </div>
+    <li class="randomPokemonContainer">
+      <p id="greeting"></p>
+      <h2>Who's that pokémon?</h2>
+      <div id="random-pokemon">
+        <img id="guess-img" data-id="" src="" alt="Raad de Pokémon" style="filter: brightness(0);" />
+      </div>
 
-  <form id="guess-form" autocomplete="off">
-    <input type="text" id="guess-input" placeholder="Raad de naam..." list="pokemon-suggestions">
-    <datalist id="pokemon-suggestions"></datalist>
-    <input type="submit" id="submit-guess" value="Raad">
-  </form>
+      <form id="guess-form" autocomplete="off">
+        <input type="text" id="guess-input" placeholder="Raad de naam..." list="pokemon-suggestions">
+        <datalist id="pokemon-suggestions"></datalist>
+        <input type="submit" id="submit-guess" value="Raad">
+      </form>
 
-  <p id="pokemon-name" class="pokemon-name"></p>
-  <p id="feedback" class="feedback-message"></p>
-</li>
+      <p id="pokemon-name" class="pokemon-name"></p>
+      <p id="feedback" class="feedback-message"></p>
+    </li>
 
     <div id="catch-counter" class="catch-counter">
       <ul class="pokeball catch">
@@ -38,38 +74,55 @@
         <li class="pokeball-mid-top"></li>
         <li class="pokeball-mid-bottom"></li>
         <li class="pokeball-bottom"></li>
-    </ul> <p><span id="caught-count">0</span> / <span id="total-count">0</span></p>
+      </ul>
+      <p><span id="caught-count">0</span> / <span id="total-count">0</span></p>
     </div>
 
 
     <ul id="last-correct-container" class="last-correct-container" style="display: none;">
-      <li><h1>Je hebt een pokémon gevangen!</h1></li>
+      <li>
+        <h1>Je hebt een pokémon gevangen!</h1>
+      </li>
       <ul class="card-container">
         <li class="last-correct-top-card">
-        <ol>
-          <li class="last-correct-top-card-left">
-            <p id="last-correct-name" class="last-correct-name"></p>
-            <div class="last-correct-top-card-bottom-text">
-              <p id="last-correct-genus" class="last-correct-genus"></p>
-              <ul class="last-correct-top-card-bottom-text-ht-wt">
-                <li><p>Height</p></li>
-                <li><p>Width</p></li>
-                <li><div><p id="last-correct-height" class="last-correct-size"></p><p id="last-correct-height-kg" class="last-correct-size"></p></div></li>
-                <li><div><p id="last-correct-weight" class="last-correct-size"></p><p id="last-correct-weight-kg" class="last-correct-size"></p></div></li>
-              </ul>
-            </div>
-          </li>
-          <li class="last-correct-top-card-right">
-            <img id="last-correct-img" src="" alt="Laatste geraden Pokémon">
-          </li>
-        </ol>
-      </li>
-      <li class="last-correct-bottom-card">
-         <p id="last-correct-flavor" class="last-correct-flavor"></p>
-      </li>
+          <ol>
+            <li class="last-correct-top-card-left">
+              <p id="last-correct-name" class="last-correct-name"></p>
+              <div class="last-correct-top-card-bottom-text">
+                <p id="last-correct-genus" class="last-correct-genus"></p>
+                <ul class="last-correct-top-card-bottom-text-ht-wt">
+                  <li>
+                    <p>Height</p>
+                  </li>
+                  <li>
+                    <p>Width</p>
+                  </li>
+                  <li>
+                    <div>
+                      <p id="last-correct-height" class="last-correct-size"></p>
+                      <p id="last-correct-height-kg" class="last-correct-size"></p>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <p id="last-correct-weight" class="last-correct-size"></p>
+                      <p id="last-correct-weight-kg" class="last-correct-size"></p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="last-correct-top-card-right">
+              <img id="last-correct-img" src="" alt="Laatste geraden Pokémon"  loading="lazy">
+            </li>
+          </ol>
+        </li>
+        <li class="last-correct-bottom-card">
+          <p id="last-correct-flavor" class="last-correct-flavor"></p>
+        </li>
       </ul>
 
-      </ul>
+    </ul>
   </ul>
   {% comment %} <ul>
     <li id="last-correct-name" class="last-correct-name"></li>
@@ -82,68 +135,66 @@
 
   </ul> {% endcomment %}
 
-<div class="pokemon-list-container">
-  <div class="pokemon-filter-buttons">
-  <button id="filter-all" class="active">Alle Pokémon</button>
-  <button id="filter-guessed">Alleen Geraden</button>
-  <button id="filter-unguessed">Nog te Raden</button>
-</div>
-<div class="pagination-controls">
-  <button id="prev-page" class="pagination-btn">←</button>
-  <span id="page-indicator">1 / X</span>
-  <button id="next-page" class="pagination-btn">→</button>
-</div>
-<div class="pagination-toggle">
-  <button id="toggle-pagination">Toon 24 per pagina</button>
-</div>
+  <div class="pokemon-list-container">
+    <div class="pokemon-filter-buttons">
+      <button id="filter-all" class="active">Alle Pokémon</button>
+      <button id="filter-guessed">Alleen Geraden</button>
+      <button id="filter-unguessed">Nog te Raden</button>
+    </div>
+    <div class="pagination-controls">
+      <button id="prev-page" class="pagination-btn">←</button>
+      <span id="page-indicator">1 / X</span>
+      <button id="next-page" class="pagination-btn">→</button>
+    </div>
+    <div class="pagination-toggle">
+      <button id="toggle-pagination">Toon 24 per pagina</button>
+    </div>
 
 
-  <ul class="pokemon-list">
+    <ul class="pokemon-list">
 
-    {% for pokemon in pokemons %}
-      <li class="pokemon"
-          data-id="{{ pokemon.id }}"
-          data-name="{{ pokemon.name }}">
-        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
+      {% for pokemon in pokemons %}
+      <li class="pokemon" data-id="{{ pokemon.id }}" data-name="{{ pokemon.name }}">
+        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }} "  loading="lazy">
       </li>
-    {% endfor %}
-  </ul>
-</div>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 
 <section class="pokedex">
   <div class="pokedex-preview">
-    <img id="pokedex-preview-img" src="" alt="Pokémon preview" style="display: none;" />
+    <img id="pokedex-preview-img" src="" alt="Pokémon preview" style="display: none;"  loading="lazy" />
   </div>
 
   <div class="pokedex-container">
-  <label for="pokedex-filter">Filter Pokédex:</label>
-  <select id="pokedex-filter">
-    <option value="all">Alle Pokémon</option>
-    <option value="guessed">Alleen geraden</option>
-  </select>
+    <label for="pokedex-filter">Filter Pokédex:</label>
+    <select id="pokedex-filter">
+      <option value="all">Alle Pokémon</option>
+      <option value="guessed">Alleen geraden</option>
+    </select>
 
-<ul class="pokedex-list">
-  {% for pokemon in pokemons %}
-    <li class="pokedexPokemons" data-id="{{ pokemon.id }}">
-      <ul class="pokeball index">
-        <li class="pokeball-top"></li>
-        <li class="pokeball-mid-top"></li>
-        <li class="pokeball-mid-bottom"></li>
-        <li class="pokeball-bottom"></li>
+    <ul class="pokedex-list">
+      {% for pokemon in pokemons %}
+      <li class="pokedexPokemons" data-id="{{ pokemon.id }}">
+        <ul class="pokeball index">
+          <li class="pokeball-top"></li>
+          <li class="pokeball-mid-top"></li>
+          <li class="pokeball-mid-bottom"></li>
+          <li class="pokeball-bottom"></li>
+        </ul>
+        <div class="container-name-types">
+          <div class="pokedex-name">#{{ pokemon.id }} {{ pokemon.name }}</div>
+          <div class="pokedex-types" data-id="{{ pokemon.id }}">
+            {% for type in pokemon.types %}
+            <span class="type {{ type }}">{{ type | capitalize }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </li>
+      {% endfor %}
     </ul>
-    <div class="container-name-types">
-      <div class="pokedex-name">#{{ pokemon.id }} {{ pokemon.name }}</div>
-      <div class="pokedex-types" data-id="{{ pokemon.id }}">
-        {% for type in pokemon.types %}
-          <span class="type {{ type }}">{{ type | capitalize }}</span>
-        {% endfor %}
-      </div>
-    </div>
-    </li>
-  {% endfor %}
-</ul>
-</div>
+  </div>
 </section>
 
 

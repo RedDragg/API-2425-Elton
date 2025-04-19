@@ -1,7 +1,18 @@
 {% layout "server/layouts/base.liquid" %}
 
+{% block styles %}
+<script src="/components/intro/intro.css" defer></script>
+{% endblock %}
+
+{% block scripts %}
+<script src="/components/intro/intro.js" defer></script>
+{% endblock %}
+
+
 {% block content %}
+<a id="intro-link" href="/index">
   <div class="intro-scherm" for="intro">
     <video id="pokemon-video" width="100%" height="100%" autoplay muted></video>
   </div>
+</a>
 {% endblock %}

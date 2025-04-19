@@ -8,11 +8,10 @@
   {% if NODE_ENV == "development" %}
     <script type="module" src="http://localhost:5173/@vite/client" defer></script>
     <script type="module" src="http://localhost:5173/client/index.js" defer></script>
-    <script> window.pokemons = {{ pokemons | json }}; </script>
   {% else %}
     <link rel="stylesheet" href="/index.css">
     <link rel="icon" type="image/x-icon" href="/images/logo.svg">
-    <script src="/index.js" defer></script>
+
   {% endif %}
   {% block styles %}{% endblock %}
   {% block scripts %}{% endblock %}
@@ -23,24 +22,38 @@
   <header>
     <nav>
       <img src="/public/img/pokemonlogo.png" alt="pokeguesser logo">
-      <ul class="pokeball base">
-        <li class="pokeball-top"></li>
-        <li class="pokeball-mid-top"></li>
-        <li class="pokeball-mid-bottom"></li>
-        <li class="pokeball-bottom"></li>
-    </ul>
+      <input type="checkbox" id="menuopen" hidden>
+      <label for="menuopen">
+          <ul class="pokeball base">
+            <li class="pokeball-top"></li>
+            <li class="pokeball-mid-top"></li>
+            <li class="pokeball-mid-bottom"></li>
+            <li class="pokeball-bottom"></li>
+        </ul>
+      </label>
+
     </nav>
   </header>
+  <section class="settingsmenu">
+    <div id="volume-control" style="margin: 1rem 0;">
+      <label for="volume-slider">Algemene volume </label>
+      <input type="range" id="volume-slider" min="0" max="100" value="40" />
+      <label for="music-volume-slider">Muziekvolume</label>
+<input type="range" id="music-volume-slider" min="0" max="100" value="40" />
+    </div>
+    <div id="music-control">
+      <button id="music-toggle-btn">▶️</button>
+    <button id="next-song-btn" aria-label="Volgende nummer">⏭️</button>
+  </div>
+
+    <button id="reset-game">Reset game</button>
+    <button id="cheat-all">Raad Alle Pokémon</button>
+
+  </section>
   <main>
     {% block content %}{% endblock %}
   </main>
   <footer>
-    <div id="volume-control" style="margin: 1rem 0;">
-      <label for="volume-slider">🔊 Volume muziek:</label>
-      <input type="range" id="volume-slider" min="0" max="100" value="40" />
-    </div>
-    <button id="reset-game">Reset game</button>
-    <button id="cheat-all">Raad Alle Pokémon</button>
 
     {% comment %} <button id="close-pokemon-list" class="close-pokemon-list">×</button> {% endcomment %}
 

@@ -31,3 +31,22 @@ footer {
   display: flex;
 }
 
+.settingsmenu{
+  display: flex;
+  flex-direction: column;
+  max-width: 10rem;
+  position: absolute;
+  top: -14rem;
+  right: 0;
+  align-items: center;
+  background: red;
+  padding: 2rem;
+  gap: 1rem;
+  z-index: 14;
+  transition: .5s;
+}
+
+body:has(#menuopen:checked) .settingsmenu{
+  top: 4rem;
+  transition: .5s;
+}

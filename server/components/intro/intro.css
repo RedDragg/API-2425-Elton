@@ -1,3 +1,5 @@
+
+
 .intro-scherm{
   overflow: hidden;
   position: absolute;
@@ -7,4 +9,21 @@
   width: 100dvw;
   height: 100dvh;
   background: #060606;
+}
+
+/* basis fade */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* optioneel voor view transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: fade 0.5s ease both;
+}
+
+@keyframes fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

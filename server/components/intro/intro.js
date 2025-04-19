@@ -1,6 +1,11 @@
 
 const videoPlayer = document.getElementById("pokemon-video");
 const introScherm = document.querySelector(".intro-scherm");
+const introLink = document.getElementById("intro-link");
+introLink.style.pointerEvents = "none";
+introLink.style.cursor = "default";
+
+
 
 const introVideo = [
   "/public/videos/pokemonintro1.mp4",
@@ -100,7 +105,11 @@ function playNextVideo() {
 
     if (currentVideoIndex === introVideo.length - 1) {
       onFinalVideo = true;
+
+      introLink.style.pointerEvents = "auto";
+      introLink.style.cursor = "pointer";
     }
+
   }
 }
 
@@ -126,29 +135,34 @@ function endIntro() {
   if (!videoPlayer.paused) {
     videoPlayer.pause();
   }
-  videoPlayer.src = "";
 
   audioElements.forEach((audio) => {
-    if (!audio.paused) {
-      audio.pause();
-    }
+    audio.pause();
     audio.currentTime = 0;
   });
 
-  const intro = document.querySelector(".intro-scherm");
-  intro.classList.add("fade-out");
+  const navigateToIndex = () => {
+    window.location.href = "/index";
+  };
 
-  setTimeout(() => {
-    intro.style.display = "none";
-  }, 500);
+  // View Transition API beschikbaar?
+  if (document.startViewTransition) {
+    document.startViewTransition(() => {
+      return new Promise((resolve) => {
+        // Wacht op fade-out animatie (optioneel)
+        const intro = document.querySelector(".intro-scherm");
+        intro.classList.add("fade-out");
 
-  window.removeEventListener("keydown", handleIntroKeydown);
-  onFinalVideo = false;
-
-  // 🎵 Start random background music
-  playRandomMusicLoop(startAudio);
+        setTimeout(() => {
+          resolve(); // Hierna verandert de page
+        }, 500);
+      });
+    }).finished.then(navigateToIndex);
+  } else {
+    // Fallback
+    window.location.href = "/index";
+  }
 }
-
 
 
 function handleIntroKeydown(e) {
@@ -164,3 +178,5 @@ function handleIntroKeydown(e) {
     }
   }
 }
+
+window.addEventListener("keydown", handleIntroKeydown);
