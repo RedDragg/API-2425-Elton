@@ -1,7 +1,17 @@
 let paginationEnabled = false;
 let currentFilterMode = "all"; // 'all', 'guessed', 'unguessed'
 
-const totaltowin = 3;
+let totaltowin = getSelectedGeneration();
+
+function getSelectedGeneration() {
+  const selectedRadio = document.querySelector('input[name="generation"]:checked');
+  return selectedRadio ? selectedRadio.value : null; // Retourneer de value van de geselecteerde radio knop
+}
+
+document.querySelector('form').addEventListener('change', () => {
+  totaltowin = getSelectedGeneration();
+  console.log("Aantal Pokémon om te winnen:", totaltowin); // Laat het aantal Pokémon zien voor de geselecteerde generatie
+});
 
 
 window.wrongSound = new Audio("/public/audio/wrong.mp3");
