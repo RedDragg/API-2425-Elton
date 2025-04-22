@@ -95,37 +95,3 @@ const renderTemplate = (template, data) => {
 
   return engine.renderFileSync(template, templateData);
 };
-
-let totaltowin = 151; // Standaardwaarde voor Gen 1
-
-// Route om instellingen bij te werken (bijv. limit, offset, totaltowin)
-app.get('/update-settings', (req, res) => {
-  const { limit, offset } = req.query;
-
-  // Verander de waarde van totaltowin op basis van de ontvangen instelling
-  if (limit && offset) {
-    // Zorg ervoor dat we de juiste waarde instellen voor totaltowin
-    if (limit == 151) {
-      totaltowin = 151; // Gen 1
-    } else if (limit == 100) {
-      totaltowin = 100; // Gen 2
-    } else if (limit == 135) {
-      totaltowin = 135; // Gen 3
-    }
-  }
-
-  console.log(`Nieuwe instellingen: limit = ${limit}, offset = ${offset}, totaltowin = ${totaltowin}`);
-
-  // Verstuur een antwoord terug naar de client (bijv. een bevestiging)
-  res.json({ message: 'Instellingen bijgewerkt', totaltowin });
-});
-
-// Een andere route (bijvoorbeeld voor de homepage)
-app.get('/', (req, res) => {
-  res.send('Pokémon Game Server');
-});
-
-// Start de server
-app.listen(port, () => {
-  console.log(`Server draait op http://localhost:${port}`);
-});
