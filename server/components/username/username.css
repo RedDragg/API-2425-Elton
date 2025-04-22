@@ -1,0 +1,111 @@
+
+#username-container{
+  position: absolute;
+  inset: 0 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: .5rem;
+  z-index: 20;
+  background:
+      radial-gradient(circle farthest-side at 0% 50%,#b6ccff 23.5%,#0000 0)33.6px 48px,
+      radial-gradient(circle farthest-side at 0% 50%,#f7f7f7 24%,#0000 0)30.4px 48px,
+      linear-gradient(#b6ccff 14%,#0000 0, #0000 85%,#b6ccff 0)0 0,
+      linear-gradient(150deg,#b6ccff 24%,#f7f7f7 0,#f7f7f7 26%,#0000 0,#0000 74%,#f7f7f7 0,#f7f7f7 76%,#b6ccff 0)0 0,
+      linear-gradient(30deg,#b6ccff 24%,#f7f7f7 0,#f7f7f7 26%,#0000 0,#0000 74%,#f7f7f7 0,#f7f7f7 76%,#b6ccff 0)0 0,
+      linear-gradient(90deg,#f7f7f7 2%,#b6ccff 0,#b6ccff 98%,#f7f7f7 0%)0 0 #b6ccff;
+background-size: 64px 96px;
+background-color: #b6ccff;
+
+  ul{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background: #b6ccff;
+    padding: 2rem;
+    border-radius: 50%;
+
+    p{
+      color: black;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    li:nth-of-type(1){
+      display: flex;
+      flex-direction: column;
+
+      div{
+        display: flex;
+        gap: 1rem;
+      }
+      label{
+        padding: 1rem .5rem .5rem .5rem;
+        background-color: #10b8f8;
+        color: black;
+        display: flex;
+        margin-top: 1rem;
+        border-radius: 5px;
+        user-select: none;
+      }
+
+      label:has(input:checked){
+        border: 1px solid black;
+        color: white;
+        text-shadow: 1px 2px black;
+      }
+    }
+
+    li:nth-of-type(2){
+      img{
+        height: 10rem;
+        border-radius: 5px;
+      }
+
+      label:has(#boy:checked) > img{
+          border: solid;
+      }
+
+      label:has(#girl:checked){
+        > img{
+          border: solid;
+        }
+      }
+    }
+
+    li:nth-of-type(3){
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+
+      #username-input{
+        font-size: 1.2rem;
+        font-family: "pokemonGb";
+        text-align: center;
+        border-radius: 10px;
+        border: none;
+        padding-top: .5rem;
+      }
+
+      #username-submit{
+        margin-top: 1rem;
+        line-height: 45px;
+        font-weight: bold;
+        font-size: large;
+        color: white;
+        padding: 0 40px;
+        background: #2d6bb4;
+        border: 3px solid #003060;
+        border-radius: 40px;
+        box-shadow: 1px 3px 3px 0px rgba(0, 0, 0, 0.6);
+        cursor: pointer;
+      }
+    }
+  }
+}
+

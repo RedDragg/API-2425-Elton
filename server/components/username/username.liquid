@@ -1,0 +1,39 @@
+<div id="username-container">
+  <form id="username-form">
+    <ul>
+      <li>
+        <p>Kies je generatie:</p>
+        <div>
+          <label>
+            <input type="radio" name="generation" value="151" id="gen1" checked/> Gen 1 (151 Pokémon)
+          </label>
+          <label>
+            <input type="radio" name="generation" value="100" id="gen2" /> Gen 2 (100 Pokémon)
+          </label>
+          <label>
+            <input type="radio" name="generation" value="135" id="gen3" /> Gen 3 (135 Pokémon)
+          </label>
+        </div>
+
+      </li>
+      <li>
+        <p>Kies je personage:</p>
+        <label class="character-option">
+          <input type="radio" name="character" value="boy" id="boy" required checked hidden/>
+          <img src="/public/img/boy.png" alt="boy">
+        </label>
+        <label class="character-option">
+          <input type="radio" name="character" value="girl" id="girl" required hidden/>
+          <img src="/public/img/girl.png" alt="girl">
+        </label>
+      </li>
+
+      <li>
+        <label for="username-input">Voer je naam in:</label>
+        <input type="text" id="username-input" placeholder="Ash Ketchum" required />
+        <input type="submit" id="username-submit" value="Opslaan" />
+      </li>
+
+    </ul>
+  </form>
+</div>

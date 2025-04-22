@@ -1,11 +1,9 @@
-
 const videoPlayer = document.getElementById("pokemon-video");
 const introScherm = document.querySelector(".intro-scherm");
 const introLink = document.getElementById("intro-link");
-introLink.style.pointerEvents = "none";
+introLink.style.pointerEvents = "none"; // Maak de link onklikbaar totdat we klaar zijn.
 introLink.style.cursor = "default";
-
-
+introLink.style.display = "none"; // Verberg de link in het begin.
 
 const introVideo = [
   "/public/videos/pokemonintro1.mp4",
@@ -29,11 +27,14 @@ let introStarted = false;
 let skipReady = false;
 let onFinalVideo = false;
 
-
 // Start intro + audio
 function startIntro() {
   if (introStarted) return;
   introStarted = true;
+
+  // Maak de intro-link zichtbaar zodra de intro start
+  introLink.style.display = "block"; // Zorg ervoor dat de link zichtbaar wordt
+  introLink.style.pointerEvents = "none"; // Maak de link eerst onklikbaar
 
   const firstAudio = audioElements[0];
   const secondAudio = audioElements[1];
@@ -68,15 +69,13 @@ function startIntro() {
   // skip de eerste video na 1.5 seconden
   skipReady = false;
   setTimeout(() => {
-    skipReady = true;
+    skipReady = true; // Zorg ervoor dat de skip-actie na 1,5 seconden mogelijk is
   }, 1500);
 }
 
-
-
 // Skip naar video 2 en audio 2
 function skipToSecondVideo() {
-  if (!skipReady || currentVideoIndex !== 0) return;
+  if (!skipReady || currentVideoIndex !== 0) return;  // Zorg ervoor dat je niet overslaat voordat de timer is afgelopen of al niet in video 1 bent
 
   videoPlayer.pause();
   audioElements[0].pause();
@@ -91,10 +90,10 @@ function skipToSecondVideo() {
   secondAudio.currentTime = 0;
   secondAudio.play();
 
-  skipReady = false;
+  skipReady = false; // Reset skipReady om meerdere keer skippen te voorkomen
 }
 
-
+// Speel de volgende video af
 function playNextVideo() {
   currentVideoIndex++;
 
@@ -105,14 +104,11 @@ function playNextVideo() {
 
     if (currentVideoIndex === introVideo.length - 1) {
       onFinalVideo = true;
-
-      introLink.style.pointerEvents = "auto";
+      introLink.style.pointerEvents = "auto"; // Maak de link pas klikbaar op het laatste video
       introLink.style.cursor = "pointer";
     }
-
   }
 }
-
 
 videoPlayer.addEventListener("ended", () => {
   playNextVideo();
@@ -123,13 +119,11 @@ introScherm.addEventListener("click", () => {
   if (!introStarted) {
     startIntro();
   } else if (skipReady && currentVideoIndex === 0) {
-    skipToSecondVideo();
+    skipToSecondVideo(); // Skip naar tweede video als we op de juiste tijd klikken
   } else if (onFinalVideo) {
-    endIntro();
+    endIntro(); // Als we bij de laatste video zijn, eindig de intro
   }
 });
-
-
 
 function endIntro() {
   if (!videoPlayer.paused) {
@@ -149,23 +143,23 @@ function endIntro() {
   if (document.startViewTransition) {
     document.startViewTransition(() => {
       return new Promise((resolve) => {
-        // Wacht op fade-out animatie (optioneel)
         const intro = document.querySelector(".intro-scherm");
         intro.classList.add("fade-out");
 
         setTimeout(() => {
-          resolve(); // Hierna verandert de page
+          resolve();
         }, 500);
       });
     }).finished.then(navigateToIndex);
   } else {
-    // Fallback
     window.location.href = "/index";
   }
 }
 
-
 function handleIntroKeydown(e) {
+  const tag = document.activeElement.tagName.toLowerCase();
+  if (tag === "input" || tag === "textarea") return;
+
   if (e.code === "Space") {
     e.preventDefault();
 

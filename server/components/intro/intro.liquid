@@ -1,18 +1,23 @@
 {% layout "server/layouts/base.liquid" %}
 
-{% block styles %}
-<script src="/components/intro/intro.css" defer></script>
-{% endblock %}
-
 {% block scripts %}
-<script src="/components/intro/intro.js" defer></script>
+  <script src="/components/intro/intro.js" defer></script>
 {% endblock %}
 
 
 {% block content %}
-<a id="intro-link" href="/index">
+
   <div class="intro-scherm" for="intro">
+    <div id="intro-text">
+      <p>Welkom op mijn website, mijn naam is <span>Elton Irokromo</span> en ik ben een CMD-student aan de Hogeschool van Amsterdam (HvA), Wibautstraat.</p>
+      <p>Dit is mijn project, de <span>Pokéguesser</span>, en het is gemaakt met de <a href="https://pokeapi.co/">PokéAPI</a>.</p>
+   <p>Het doel van dit project is om te leren en te experimenteren met verschillende technologieën en de wereld van Pokémon op een leuke manier te verkennen.</p>
+<p><span>Dit is een schoolproject en wordt dus niet voor commerciële doeleinden gebruikt.</span> Alles wat je hier ziet, is puur voor het plezier en de uitdaging!</p>
+<p>klik om door te gaan.</p></div>
+<a id="intro-link" href="/index">
+
     <video id="pokemon-video" width="100%" height="100%" autoplay muted></video>
+    </a>
+
   </div>
-</a>
 {% endblock %}

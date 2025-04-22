@@ -8,6 +8,9 @@
 
 /* component styling */
 @import '../server/components/intro/intro.css';
+@import'../server/components/username/username.css';
+@import '../server/components/instellingen/instellingen.css';
+@import '../server/components/guessPokemon/guessPokemon.css';
 
 body {
   color: black;

@@ -1,16 +1,17 @@
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block head %}
-    <title>{{ title }}</title>
+  <title>{{ title }}</title>
   {% endblock %}
   {% if NODE_ENV == "development" %}
-    <script type="module" src="http://localhost:5173/@vite/client" defer></script>
-    <script type="module" src="http://localhost:5173/client/index.js" defer></script>
+  <script type="module" src="http://localhost:5173/@vite/client" defer></script>
+  <script type="module" src="http://localhost:5173/client/index.js" defer></script>
   {% else %}
-    <link rel="stylesheet" href="/index.css">
-    <link rel="icon" type="image/x-icon" href="/images/logo.svg">
+  <link rel="stylesheet" href="/index.css">
+  <link rel="icon" type="image/x-icon" href="/images/logo.svg">
 
   {% endif %}
   {% block styles %}{% endblock %}
@@ -22,41 +23,50 @@
   <header>
     <nav>
       <img src="/public/img/pokemonlogo.png" alt="pokeguesser logo">
-      <input type="checkbox" id="menuopen" hidden>
-      <label for="menuopen">
-          <ul class="pokeball base">
+      <label for="menuopen" id="menu"><input type="checkbox" id="menuopen" hidden>
+        <p>Instellingen</p>
+        <ul class="pokeball base">
+          <li class="pokeball-top"></li>
+          <li class="pokeball-mid-top"></li>
+          <li class="pokeball-mid-bottom"></li>
+          <li class="pokeball-bottom"></li>
+        </ul>
+      </label>
+    </nav>
+  </header>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer>
+    <ul>
+      <li>
+        <label for="guesspkm" id="menu"><input type="radio" id="guesspkm" name="menus" class="guesspkm" hidden checked>
+          <p>Home</p>
+        </label>
+      </li>
+      <li>
+        <label for="pokemonlistopen" id="menu"><input type="radio" id="pokemonlistopen" name="menus" hidden>
+        <div id="catch-counter" class="catch-counter">
+          <ul class="pokeball catch">
             <li class="pokeball-top"></li>
             <li class="pokeball-mid-top"></li>
             <li class="pokeball-mid-bottom"></li>
             <li class="pokeball-bottom"></li>
-        </ul>
-      </label>
+          </ul>
+          <p><span class="caught-count">0</span> / <span class="total-count">0</span></p>
+        </div>
+        </label>
+      </li>
+      <li>
+        <label for="pokedexopen" id="menu"><input type="radio" id="pokedexopen" name="menus" class="pokedexopen" hidden>
+          <p>Pokedex</p>
+        </label>
+      </li>
+    </ul>
 
-    </nav>
-  </header>
-  <section class="settingsmenu">
-    <div id="volume-control" style="margin: 1rem 0;">
-      <label for="volume-slider">Algemene volume </label>
-      <input type="range" id="volume-slider" min="0" max="100" value="40" />
-      <label for="music-volume-slider">Muziekvolume</label>
-<input type="range" id="music-volume-slider" min="0" max="100" value="40" />
-    </div>
-    <div id="music-control">
-      <button id="music-toggle-btn">▶️</button>
-    <button id="next-song-btn" aria-label="Volgende nummer">⏭️</button>
-  </div>
-
-    <button id="reset-game">Reset game</button>
-    <button id="cheat-all">Raad Alle Pokémon</button>
-
-  </section>
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-  <footer>
-
-    {% comment %} <button id="close-pokemon-list" class="close-pokemon-list">×</button> {% endcomment %}
 
   </footer>
 </body>
+
 </html>
