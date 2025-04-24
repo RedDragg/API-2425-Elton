@@ -20,10 +20,6 @@ window.getVolume = function () {
   return volumeSlider ? volumeSlider.value / 100 : 0.4;
 };
 
-function getVolume() {
-  return volumeSlider ? volumeSlider.value / 100 : 0.4;
-}
-
 function activatePokedexClicks() {
   document
     .querySelectorAll(".pokedex .pokedex-list .pokedexPokemons.guessed")
@@ -79,6 +75,25 @@ function updatePokedexList() {
     });
 }
 
+
+function updatePokemonListImages() {
+  const listItems = document.querySelectorAll(".pokemon-list .pokemon");
+
+  listItems.forEach((item) => {
+    const id = Number(item.dataset.id);
+    const img = item.querySelector("img");
+
+    if (window.geradenPokemonIds.includes(id)) {
+      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+      item.classList.add("visible");
+    } else {
+      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+      item.classList.remove("visible");
+    }
+  });
+}
+
+
 const pokedexFilterAllBtn = document.getElementById("pokedex-filter-all");
 const pokedexFilterGuessedBtn = document.getElementById("pokedex-filter-guessed");
 
@@ -110,17 +125,6 @@ pokedexFilterGuessedBtn.addEventListener("click", () => {
   setPokedexActiveButton(pokedexFilterGuessedBtn);
   applyPokedexFilter();
 });
-
-
-function applyPokemonFilter(mode) {
-  currentFilterMode = mode;
-  currentPage = 1;
-  renderPage(currentPage);
-}
-
-
-
-
 
 document.getElementById("reset-game").addEventListener("click", () => {
   localStorage.clear();
@@ -288,76 +292,6 @@ document.getElementById("cheat-all").addEventListener("click", () => {
 });
 
 
-
-function updatePokemonListImages() {
-  const listItems = document.querySelectorAll(".pokemon-list .pokemon");
-
-  listItems.forEach((item) => {
-    const id = Number(item.dataset.id);
-    const img = item.querySelector("img");
-
-    if (window.geradenPokemonIds.includes(id)) {
-      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
-      item.classList.add("visible");
-    } else {
-      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-      item.classList.remove("visible");
-    }
-  });
-}
-
-function activatePokedexClicks() {
-  document
-    .querySelectorAll(".pokedex .pokedex-list .pokedexPokemons.guessed")
-    .forEach((listItem) => {
-      if (listItem.dataset.clickBound === "true") return;
-
-      listItem.addEventListener("click", () => {
-        const id = Number(listItem.dataset.id);
-        if (!window.geradenPokemonIds.includes(id)) return;
-
-        document.querySelectorAll(".pokedexPokemons.active").forEach((item) => {
-          item.classList.remove("active");
-        });
-
-        listItem.classList.add("active");
-
-        const previewImg = document.getElementById("pokedex-preview-img");
-        previewImg.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
-        previewImg.style.display = "block";
-        previewImg.alt = `Pokémon #${id}`;
-
-        const cry = new Audio(
-          `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`
-        );
-        cry.volume = window.getVolume() / 2;
-        cry.play().catch((err) => {
-          console.warn("Cry kon niet afgespeeld worden:", err);
-        });
-      });
-
-      listItem.dataset.clickBound = "true";
-    });
-}
-
-
-
-function updatePokemonListImages() {
-  const listItems = document.querySelectorAll(".pokemon-list .pokemon");
-
-  listItems.forEach((item) => {
-    const id = Number(item.dataset.id);
-    const img = item.querySelector("img");
-
-    if (window.geradenPokemonIds.includes(id)) {
-      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
-      item.classList.add("visible");
-    } else {
-      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-      item.classList.remove("visible");
-    }
-  });
-}
 
 function updateStreakUI() {
   const currentStreak = Number(localStorage.getItem("currentStreak")) || 0;

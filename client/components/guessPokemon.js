@@ -11,6 +11,7 @@
   const guessInput = document.getElementById("guess-input");
   const feedback = document.getElementById("feedback");
 
+
   function updateGevangenTeller() {
     const totaalGevangen = geradenPokemonIds.length;
     const totalePokemons = allePokemons.length;
@@ -47,23 +48,33 @@
   }
 
   function randomPokemon() {
-    const unkownPokemons = allePokemons.filter((p) => !geradenPokemonIds.includes(p.id));
-    console.log(unkownPokemons);
+    if (!Array.isArray(allePokemons) || !Array.isArray(geradenPokemonIds)) return null;
+
+    const unkownPokemons = allePokemons.filter(p => !geradenPokemonIds.includes(p.id));
+
     if (unkownPokemons.length === 0) return null;
+
+    console.log(unkownPokemons);
     return unkownPokemons[Math.floor(Math.random() * unkownPokemons.length)];
   }
+
 
   function updateGuessUI(pokemon) {
     console.log(pokemon.id, pokemon.name);
     const guessImg = document.getElementById("guess-img");
+    const guessNameContainer = document.getElementById("pokemon-name");
+    if (!guessImg || !guessNameContainer) return;
+
+
     guessImg.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
     guessImg.setAttribute("data-id", pokemon.id);
     guessImg.setAttribute("alt", pokemon.name);
 
     document.getElementById("random-pokemon").classList.remove("visible");
 
-    const guessNameContainer = document.getElementById("pokemon-name");
     guessNameContainer.innerHTML = "";
+
+
     for (let i = 0; i < pokemon.name.length; i++) {
       const span = document.createElement("span");
       span.textContent = pokemon.name[i];
@@ -79,6 +90,8 @@
     let currentPokemon = randomPokemon();
 
     const datalist = document.getElementById("pokemon-suggestions");
+
+    if (!guessInput || !feedback || !datalist) return;
 
     guessInput.addEventListener("input", (e) => {
       const inputValue = e.target.value.toLowerCase();
@@ -104,14 +117,10 @@
     updateFoutTeller();
     updateStreakUI();
 
-    updatePokemonListImages();
-    updatePokedexList();
-    applyPokedexFilter();
-    activatePokedexClicks();
-
 
 
     const guessForm = document.getElementById("guess-form");
+    if (!guessForm) return;
 
     guessForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -127,6 +136,10 @@
         if (geradenPokemonIds.length >= totaltowin) {
           const winnerContainer = document.getElementById("winner-container");
           winnerContainer.style.display = "flex";
+          const submitGuessBtn = document.getElementById("submit-guess");
+          if (!winnerContainer || !submitGuessBtn) return;
+
+
           feedback.textContent = `Je hebt ${totaltowin} Pokémon geraden! 🎉`;
           guessInput.disabled = true;
           document.getElementById("submit-guess").disabled = true;
@@ -198,6 +211,9 @@
           "last-correct-container"
         );
         const lastCorrectName = document.getElementById("last-correct-name");
+
+        if (!lastCorrectImg || !lastCorrectContainer || !lastCorrectName) return;
+
 
         lastCorrectName.textContent = `No${String(currentPokemon.id).padStart(
           3,
@@ -272,9 +288,6 @@
             console.error("Fout bij ophalen species data:", err.message);
           });
 
-        activatePokedexClicks();
-        updatePokedexList();
-        applyPokedexFilter();
 
         currentPokemon = randomPokemon();
         if (currentPokemon) {
@@ -342,6 +355,9 @@
   function updateFoutTeller() {
     const wrongGuessCount = Number(localStorage.getItem("totalWrongGuesses")) || 0;
 
+    const containers = document.querySelectorAll(".wrong-count");
+if (!containers.length) return;
+
     document.querySelectorAll(".wrong-count").forEach((el) => {
       el.textContent = wrongGuessCount;
     });
@@ -349,14 +365,19 @@
 
 
   function updateStreakUI() {
-    document.querySelectorAll(".current-streak").forEach(el => {
+    const currentStreakEls = document.querySelectorAll(".current-streak");
+    const bestStreakEls = document.querySelectorAll(".best-streak");
+
+    if (!currentStreakEls.length || !bestStreakEls.length) return;
+
+    currentStreakEls.forEach(el => {
       el.textContent = currentStreak;
     });
 
-    document.querySelectorAll(".best-streak").forEach(el => {
+    bestStreakEls.forEach(el => {
       el.textContent = bestStreak;
     });
-
   }
+
 
   console.log(`🔥 Nieuwe streak: ${currentStreak}`);

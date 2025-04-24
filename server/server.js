@@ -16,7 +16,7 @@ let pokemonOffset = 0;   // Gen 1 standaard
 
 app
   .use(logger())
-  .use('/', sirv(process.env.NODE_ENV === 'development' ? 'client' : 'dist'))
+  .use('/', sirv('dist'))
   .use('/public', sirv('public'))
   .use('/components', sirv('server/components'))
   .listen(3000, () => console.log('Server draait op http://localhost:3000'));
@@ -62,15 +62,9 @@ app.get('/update-settings', (req, res) => {
 
 // Route: Intro pagina
 app.get('/', async (req, res) => {
-  const pokemonList = await fetchAllPokemon();
-
-  const randomIndex = Math.floor(Math.random() * pokemonList.length);
-  const randomPokemon = pokemonList[randomIndex];
 
   return res.send(renderTemplate('server/components/intro/intro.liquid', {
-    title: 'Intro | Pokédex',
-    pokemons: pokemonList,
-    randomPokemon,
+    title: 'Intro'
   }));
 });
 
@@ -97,7 +91,7 @@ const renderTemplate = (template, data) => {
 app.get('/pokemon/:id', async (req, res) => {
   const id = req.params.id;
 
-  if (isNaN(id) || id < 1 || id > 151) {
+  if (isNaN(id) || id < 1 || id > 400) {
     return res.status(404).send('Pokémon not found');
   }
 
