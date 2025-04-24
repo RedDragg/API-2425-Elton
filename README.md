@@ -49,3 +49,8 @@ Hieruit heb ik drie functionaliteiten bedacht.
 <img src="./public/img/readme-img/v2-pokdedex.gif">
 
 ## Week 4:
+
+https://github.com/user-attachments/assets/b374e734-9ee6-4e8b-80e4-d54340b59dcb
+
+
+<video src="./public/img/readme-img/intro.mp4">
