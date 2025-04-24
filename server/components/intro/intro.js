@@ -136,7 +136,7 @@ function endIntro() {
   });
 
   const navigateToIndex = () => {
-    window.location.href = "/index";
+    window.location.href = "/pokemon";
   };
 
   // View Transition API beschikbaar?
@@ -152,7 +152,7 @@ function endIntro() {
       });
     }).finished.then(navigateToIndex);
   } else {
-    window.location.href = "/index";
+    window.location.href = "/pokemon";
   }
 }
 

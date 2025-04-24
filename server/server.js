@@ -21,9 +21,7 @@ app
   .use('/components', sirv('server/components'))
   .listen(3000, () => console.log('Server draait op http://localhost:3000'));
 
-// Haal Pokémon-data op, incl. animated GIF sprite
 async function fetchAllPokemon() {
-  // Gebruik de waarde van pokemonLimit en pokemonOffset uit de servervariabelen
   const pokemonAPI = `https://pokeapi.co/api/v2/pokemon?limit=${pokemonLimit}&offset=${pokemonOffset}`;
   const response = await fetch(pokemonAPI);
   const data = await response.json();
@@ -31,7 +29,7 @@ async function fetchAllPokemon() {
 
   const detailedPokemon = await Promise.all(
     data.results.map(async (pokemon, index) => {
-      const id = pokemonOffset + index + 1; // Pokémon ID startend vanaf 152
+      const id = pokemonOffset + index + 1;
       const res = await fetch(pokemon.url);
       const details = await res.json();
 
@@ -77,7 +75,7 @@ app.get('/', async (req, res) => {
 });
 
 // ✅ Route: Index pagina
-app.get('/index', async (req, res) => {
+app.get('/pokemon', async (req, res) => {
   const pokemonList = await fetchAllPokemon();
 
   return res.send(renderTemplate('server/views/index.liquid', {
@@ -95,3 +93,34 @@ const renderTemplate = (template, data) => {
 
   return engine.renderFileSync(template, templateData);
 };
+
+app.get('/pokemon/:id', async (req, res) => {
+  const id = req.params.id;
+
+  if (isNaN(id) || id < 1 || id > 151) {
+    return res.status(404).send('Pokémon not found');
+  }
+
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const details = await response.json();
+
+    const item = {
+      id,
+      name: details.name,
+      sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`,
+      stats: details.stats.map(stat => ({
+        name: stat.stat.name,
+        value: stat.base_stat,
+      })),
+    };
+
+    return res.send(renderTemplate('server/views/detail.liquid', {
+      title: `Details van ${item.name}`,
+      item,
+    }));
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Er is iets misgegaan met het ophalen van de data.');
+  }
+});
