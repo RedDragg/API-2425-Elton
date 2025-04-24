@@ -11,7 +11,7 @@ export default defineConfig({
     emptyOutDir: false,
     outDir: 'dist',
     rollupOptions: {
-      input: path.resolve(__dirname, 'server/components/index.js'),
+      input: path.resolve(__dirname, 'client/index.js'),
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: '[name].js',
