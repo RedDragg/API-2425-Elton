@@ -11,7 +11,7 @@ const engine = new Liquid({
 const app = new App();
 
 // Beginwaarden voor pokemonLimit en pokemonOffset
-let pokemonLimit = 151;  // Gen 1 standaard
+let pokemonLimit = 20;  // Gen 1 standaard
 let pokemonOffset = 0;   // Gen 1 standaard
 
 app
