@@ -97,7 +97,9 @@ body:has(#pokemonlistopen:checked){
   .pokemon-list-container {
     transform: translateX(0);
     transition: 0.5s;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .guessPokemon, .pokedex{
