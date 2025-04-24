@@ -49,4 +49,3 @@ Hieruit heb ik drie functionaliteiten bedacht.
 <img src="./public/img/readme-img/v2-pokdedex.gif">
 
 ## Week 4:
-<video src="./public/img/readme-img/intro.mp4">
