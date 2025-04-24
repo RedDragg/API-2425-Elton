@@ -5,8 +5,77 @@
 {% endblock %}
 
 {% block content %}
-{% include "/server/components/instellingen/instellingen.liquid" %}
-{% include "/server/components/username/username.liquid" %}
+<section class="settingsmenu">
+
+
+    <div class="settings-container">
+      <ul id="player-info" class="player-info">
+        <li><img class="player-avatar" src="" alt="Speler afbeelding" /></li>
+
+        <li><p class="player-name"></p></li>
+        <li><p><span class="caught-count">0</span> / <span class="total-count">0</span></p></li>
+        <li><p>Streak: <span class="current-streak">0</span></p></li>
+         <li><p>Beste streak: <span class="best-streak">0</span></p></li>
+         <li><p>Fouten: <span class="wrong-count">0</span></p></li>
+
+         <li><p class="account-created"></p></li>
+      </ul>
+      <hr>
+      <div id="volume-control">
+        <label for="volume-slider">Algemene volume<input type="range" id="volume-slider" min="0" max="100" value="40" />
+        </label>
+        <div class="music-volume-container">
+          <label for="music-volume-slider">Muziekvolume<input type="range" id="music-volume-slider" min="0" max="100"
+              value="40" /></label>
+          <div id="music-control">
+            <button id="music-toggle-btn">▶</button>
+            <button id="next-song-btn">⏭</button>
+          </div>
+        </div>
+      </div>
+      <button id="reset-game">Reset game</button>
+      <button id="cheat-all">Raad Alle Pokémon</button>
+    </div>
+  </section>
+  <div id="username-container">
+    <form id="username-form">
+      <ul>
+        <li>
+          <p>Kies je generatie:</p>
+          <div>
+            <label>
+              <input type="radio" name="generation" value="151" id="gen1" checked hidden/> Gen 1 (151 Pokémon)
+            </label>
+            <label>
+              <input type="radio" name="generation" value="100" id="gen2" hidden/> Gen 2 (100 Pokémon)
+            </label>
+            <label>
+              <input type="radio" name="generation" value="135" id="gen3" hidden/> Gen 3 (135 Pokémon)
+            </label>
+          </div>
+
+        </li>
+        <li>
+          <p>Kies je personage:</p>
+          <label class="character-option">
+            <input type="radio" name="character" value="boy" id="boy" required checked hidden/>
+            <img src="/public/img/boy.png" alt="boy">
+          </label>
+          <label class="character-option">
+            <input type="radio" name="character" value="girl" id="girl" required hidden/>
+            <img src="/public/img/girl.png" alt="girl">
+          </label>
+        </li>
+
+        <li>
+          <label for="username-input">Voer je naam in:</label>
+          <input type="text" id="username-input" placeholder="Ash Ketchum" required />
+          <input type="submit" id="username-submit" value="Opslaan" />
+        </li>
+
+      </ul>
+    </form>
+  </div>
 
 
 <div id="winner-container" style="display: none;">
@@ -21,7 +90,111 @@
 </ul>
 </div>
 
-{% include "/server/components/guesspokemon/guesspokemon.liquid" %}
+<div class="guessPokemonContainer">
+  <ul class="guessPokemon">
+
+    <li class="randomPokemonContainer">
+      <p id="greeting"></p>
+      <h2>Who's that pokémon?</h2>
+      <div id="random-pokemon">
+        <img id="guess-img" data-id="" src="" alt="Raad de Pokémon" style="filter: brightness(0);" />
+        <ul class="guess-ui">
+          <li><p>Streak: <span class="current-streak">0</span></p></li>
+          <li><p>Beste streak: <span class="best-streak">0</span></p></li>
+          <li><p>Fouten: <span class="wrong-count">0</span></p></li>
+        </ul>
+      </div>
+
+      <p id="pokemon-name" class="pokemon-name"></p>
+
+      <form id="guess-form" autocomplete="off">
+        <input type="text" id="guess-input" placeholder="Raad de naam..." list="pokemon-suggestions">
+        <datalist id="pokemon-suggestions"></datalist>
+        <input type="submit" id="submit-guess" value="Raad">
+      </form>
+    </li>
+    <li>
+      <p id="feedback" class="feedback-message"></p>
+
+      <ul id="last-correct-container" class="last-correct-container" style="display: none;">
+        <li>
+          <h1>Je hebt een pokémon gevangen!</h1>
+        </li>
+        <ul class="card-container">
+          <li class="last-correct-top-card">
+            <ol>
+              <li class="last-correct-top-card-left">
+                <p id="last-correct-name" class="last-correct-name"></p>
+                <div class="last-correct-top-card-bottom-text">
+                  <p id="last-correct-genus" class="last-correct-genus"></p>
+                  <ul class="last-correct-top-card-bottom-text-ht-wt">
+                    <li>
+                      <p>Height</p>
+                    </li>
+                    <li>
+                      <p>Width</p>
+                    </li>
+                    <li>
+                      <div>
+                        <p id="last-correct-height" class="last-correct-size"></p>
+                        <p id="last-correct-height-kg" class="last-correct-size"></p>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <p id="last-correct-weight" class="last-correct-size"></p>
+                        <p id="last-correct-weight-kg" class="last-correct-size"></p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="last-correct-top-card-right">
+                <img id="last-correct-img" src="" alt="Laatste geraden Pokémon"  loading="lazy">
+              </li>
+            </ol>
+          </li>
+          <li class="last-correct-bottom-card">
+            <p id="last-correct-flavor" class="last-correct-flavor"></p>
+          </li>
+        </ul>
+
+      </ul>
+    </li>
+
+  </ul>
+
+
+
+
+
+
+  <div class="pokemon-list-container">
+    <div class="pokemon-filter-buttons">
+      <button id="filter-all" class="active">Alle Pokémon</button>
+      <button id="filter-guessed">Alleen Geraden</button>
+      <button id="filter-unguessed">Nog te Raden</button>
+    </div>
+    <div class="pagination-controls">
+      <button id="prev-page" class="pagination-btn">←</button>
+      <span id="page-indicator">1 / X</span>
+      <button id="next-page" class="pagination-btn">→</button>
+    </div>
+    <div class="pagination-toggle">
+      <button id="toggle-pagination">Toon 24 per pagina</button>
+    </div>
+
+
+    <ul class="pokemon-list">
+
+      {% for pokemon in pokemons %}
+      <li class="pokemon" data-id="{{ pokemon.id }}" data-name="{{ pokemon.name }}">
+        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }} "  loading="lazy">
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 
 
 
